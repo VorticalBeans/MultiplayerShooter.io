@@ -44,6 +44,7 @@ io.on('connection', function(socket) {
     }
     if (data.down) {
       player.y += 5;
+      // test
     }
   });
 });
