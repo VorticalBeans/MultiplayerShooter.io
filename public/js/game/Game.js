@@ -5,7 +5,7 @@
  * @author alvin.lin.dev@gmail.com (Alvin Lin)
  */
 /**
- * Creates a Game on the client side to render the players and entities.
+ * Creates a Game on the client side to render the Players and entities.
  * @constructor
  * @param {Object} socket The socket connected to the server.
  * @param {Drawing} drawing The Drawing object that will render the game.
@@ -14,7 +14,7 @@ function Game(socket, drawing) {
     this.socket = socket;
     this.drawing = drawing;
 
-    this.Blocks = [];
+    //this.Blocks = [];
     this.Players = [];
     this.animationFrameId = 0;
     this.Map = Map.Create(this);
@@ -118,21 +118,21 @@ Game.prototype.update = function() {
  * Draws the state of the game using the internal Drawing object.
  */
 Game.prototype.draw = function() {
-  // Clear the canvas.
-  this.drawing.clear();
+    // Clear the canvas.
+    this.drawing.clear();
 
-  for (var block of this.Blocks) {
-    this.drawing.drawBlock(
-      block.x,
-      block.y
-    );
-  }
+    for (var block of this.Map.Layout) {
+        this.drawing.drawBlock(
+            block[0],
+            block[1]
+        );
+    }
 
-  // Draw the other players
-  for (var player of this.Players) {
-    this.drawing.drawPlayer(
-      player[0],
-      player[1]
-    );
-  }
+    // Draw the other Players
+    for (var player of this.Players) {
+        this.drawing.drawPlayer(
+            player[0],
+            player[1]
+        );
+    }
 };

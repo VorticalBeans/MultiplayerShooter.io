@@ -1,10 +1,18 @@
 function Map(game) {
-    game.Blocks.push(Block.Create(256,128));
-    game.Blocks.push(Block.Create(256,256));
-    game.Blocks.push(Block.Create(128,256));
-    game.Blocks.push(Block.Create(128,128));
+    this.Layout =
+        [[256,128],
+        [256,256],
+        [128,256],
+        [128,128]];
 }
 
 Map.Create = function(game) {
   return new Map(game);
 };
+
+if (typeof module === 'object') {
+    module.exports = Map;
+} else {
+    window.Map = Map;
+}
+    
