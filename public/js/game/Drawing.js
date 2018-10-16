@@ -50,11 +50,22 @@ Drawing.prototype.clear = function() {
  * @param {number} y The y coordinate of the player
  * @param {number} size The radial size of the player
  */
-Drawing.prototype.drawOther = function(x, y) {
+Drawing.prototype.drawPlayer = function(x, y) {
   this.context.save();
   this.context.beginPath();
   this.context.fillStyle = 'red';
+  //this.context.rect(x, y, 10, 10);
   this.context.arc(x, y, 10, 0, Math.PI * 2);
   this.context.fill();
   this.context.restore();
 };
+
+Drawing.prototype.drawBlock = function(x, y) {
+    this.context.save();
+    this.context.beginPath();
+    this.context.fillStyle = 'gray';
+    this.context.rect(x, y, 20, 20);
+    //this.context.arc(x, y, 10, 0, Math.PI * 2);
+    this.context.fill();
+    this.context.restore();
+  };

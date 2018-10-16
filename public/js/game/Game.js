@@ -11,12 +11,13 @@
  * @param {Drawing} drawing The Drawing object that will render the game.
  */
 function Game(socket, drawing) {
-  this.socket = socket;
-  this.drawing = drawing;
+    this.socket = socket;
+    this.drawing = drawing;
 
-  this.selfPlayer = null;
-  this.Players = [];
-  this.animationFrameId = 0;
+    this.Blocks = [];
+    this.Players = [];
+    this.animationFrameId = 0;
+    this.Map = Map.Create(this);
 }
 
 /**
@@ -27,16 +28,16 @@ function Game(socket, drawing) {
  * @return {Game}
  */
 Game.create = function(socket, canvasElement) {
-  /**
-   * Set the aspect ratio of the canvas.
-   */
-  canvasElement.width = 800;
-  canvasElement.height = 600;
-  canvasElement.style.border = '1px solid black';
-  var canvasContext = canvasElement.getContext('2d');
+    /**
+     * Set the aspect ratio of the canvas.
+     */
+    canvasElement.width = 800;
+    canvasElement.height = 600;
+    canvasElement.style.border = '1px solid black';
+    var canvasContext = canvasElement.getContext('2d');
 
-  var drawing = Drawing.create(canvasContext);
-  return new Game(socket, drawing);
+    var drawing = Drawing.create(canvasContext);
+    return new Game(socket, drawing);
 };
 
 /**
@@ -44,26 +45,26 @@ Game.create = function(socket, canvasElement) {
  * event handlers.
  */
 Game.prototype.init = function() {
-  var context = this;
-  this.socket.on(2, function(data) {
-    context.receiveGameState(data);
-  });
-  this.socket.emit('player-join');
+    var context = this;
+    this.socket.on(2, function(data) {
+        context.receiveGameState(data);
+    });
+    this.socket.emit('player-join');
 };
 
 /**
  * This method begins the animation loop for the game.
  */
 Game.prototype.animate = function() {
-  this.animationFrameId = window.requestAnimationFrame(
-      Util.bind(this, this.update));
+    this.animationFrameId = window.requestAnimationFrame(
+        Util.bind(this, this.update));
 };
 
 /**
  * This method stops the animation loop for the game.
  */
 Game.prototype.stopAnimation = function() {
-  window.cancelAnimationFrame(this.animationFrameId);
+    window.cancelAnimationFrame(this.animationFrameId);
 };
 
 /**
@@ -120,9 +121,16 @@ Game.prototype.draw = function() {
   // Clear the canvas.
   this.drawing.clear();
 
+  for (var block of this.Blocks) {
+    this.drawing.drawBlock(
+      block.x,
+      block.y
+    );
+  }
+
   // Draw the other players
   for (var player of this.Players) {
-    this.drawing.drawOther(
+    this.drawing.drawPlayer(
       player[0],
       player[1]
     );
