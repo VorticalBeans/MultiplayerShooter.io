@@ -83,14 +83,34 @@ Game.prototype.receiveGameState = function(state) {
 Game.prototype.update = function() {
   if (this.selfPlayer) {
     // Emits an event for the containing the player's input.
-    this.socket.emit('player-action', {
+    var compressedState = 0;
+    if(Input.RIGHT){
+      compressedState += 1;
+    }
+    if(Input.UP){
+      compressedState += 2;
+    }
+    if(Input.LEFT){
+      compressedState += 4;
+    }
+    if(Input.DOWN){
+      compressedState += 8;
+    }
+    /*if(Input.LEFT){
+      this.socket.emit(1);
+    }
+    else{
+      this.socket.emit(0);
+    }*/
+    this.socket.emit(1, compressedState);
+    /*this.socket.emit('player-action', {
       keyboardState: {
         left: Input.LEFT,
         right: Input.RIGHT,
         up: Input.UP,
         down: Input.DOWN
       }
-    });
+    });*/
     this.draw();
   }
   this.animate();

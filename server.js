@@ -41,8 +41,13 @@ io.on('connection', (socket) => {
     game.addNewPlayer(socket);
   });
 
-  socket.on('player-action', (data) => {
+  socket.on(1, (data) => {
     game.updatePlayerOnInput(socket.id, data);
+  });
+
+  socket.on('*', function(packet){
+    // client.emit('foo', 'bar', 'baz')
+    game.updatePlayerOnInput(socket.id, packet.data);
   });
 
   socket.on('disconnect', () => {

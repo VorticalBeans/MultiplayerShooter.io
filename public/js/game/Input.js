@@ -12,20 +12,20 @@ function Input() {
 }
 
 /** @type {boolean} */
-Input.LEFT_CLICK = false;
+Input.LEFT_CLICK = 0;
 /** @type {boolean} */
-Input.RIGHT_CLICK = false;
+Input.RIGHT_CLICK = 0;
 /** @type {Array<number>} */
 Input.MOUSE = [0, 0];
 
 /** @type {boolean} */
-Input.LEFT = false;
+Input.LEFT = 0;
 /** @type {boolean} */
-Input.UP = false;
+Input.UP = 0;
 /** @type {boolean} */
-Input.RIGHT = false;
+Input.RIGHT = 0;
 /** @type {boolean} */
-Input.DOWN = false;
+Input.DOWN = 0;
 /** @type {Object<number, boolean>} */
 Input.MISC_KEYS = {};
 
@@ -36,11 +36,11 @@ Input.MISC_KEYS = {};
  */
 Input.onMouseDown = function(event) {
   if (event.which == 1) {
-    Input.LEFT_CLICK = true;
+    Input.LEFT_CLICK = 1;
   } else if (event.which == 3) {
     // This may fail depending on the browser as right click handling is
     // not universally supported.
-    Input.RIGHT_CLICK = true;
+    Input.RIGHT_CLICK = 1;
   }
 };
 
@@ -51,11 +51,11 @@ Input.onMouseDown = function(event) {
  */
 Input.onMouseUp = function(event) {
   if (event.which == 1) {
-    Input.LEFT_CLICK = false;
+    Input.LEFT_CLICK = 0;
   } else if (event.which == 3) {
     // This may fail depending on the browser as right click handling is
     // not universally supported.
-    Input.RIGHT_CLICK = false;
+    Input.RIGHT_CLICK = 0;
   }
 };
 
@@ -68,22 +68,22 @@ Input.onKeyDown = function(event) {
   switch (event.keyCode) {
     case 37:
     case 65:
-      Input.LEFT = true;
+      Input.LEFT = 1;
       break;
     case 38:
     case 87:
-      Input.UP = true;
+      Input.UP = 1;
       break;
     case 39:
     case 68:
-      Input.RIGHT = true;
+      Input.RIGHT = 1;
       break;
     case 40:
     case 83:
-      Input.DOWN = true;
+      Input.DOWN = 1;
       break;
     default:
-      Input.MISC_KEYS[event.keyCode] = true;
+      Input.MISC_KEYS[event.keyCode] = 1;
       break;
   }
 };
@@ -97,22 +97,22 @@ Input.onKeyUp = function(event) {
   switch (event.keyCode) {
     case 37:
     case 65:
-      Input.LEFT = false;
+      Input.LEFT = 0;
       break;
     case 38:
     case 87:
-      Input.UP = false;
+      Input.UP = 0;
       break;
     case 39:
     case 68:
-      Input.RIGHT = false;
+      Input.RIGHT = 0;
       break;
     case 40:
     case 83:
-      Input.DOWN = false;
+      Input.DOWN = 0;
       break;
     default:
-      Input.MISC_KEYS[event.keyCode] = false;
+      Input.MISC_KEYS[event.keyCode] = 0;
   }
 };
 
