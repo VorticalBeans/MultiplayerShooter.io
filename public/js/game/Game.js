@@ -15,7 +15,7 @@ function Game(socket, drawing) {
   this.drawing = drawing;
 
   this.selfPlayer = null;
-  this.otherPlayers = [];
+  this.Players = [];
   this.animationFrameId = 0;
 }
 
@@ -45,7 +45,7 @@ Game.create = function(socket, canvasElement) {
  */
 Game.prototype.init = function() {
   var context = this;
-  this.socket.on('update', function(data) {
+  this.socket.on(2, function(data) {
     context.receiveGameState(data);
   });
   this.socket.emit('player-join');
@@ -72,8 +72,7 @@ Game.prototype.stopAnimation = function() {
  * @param {Object} state The game state received from the server.
  */
 Game.prototype.receiveGameState = function(state) {
-  this.selfPlayer = state['self'];
-  this.otherPlayers = state['players'];
+  this.Players = state;
 };
 
 /**
@@ -81,38 +80,36 @@ Game.prototype.receiveGameState = function(state) {
  * server.
  */
 Game.prototype.update = function() {
-  if (this.selfPlayer) {
-    // Emits an event for the containing the player's input.
-    var compressedState = 0;
-    if(Input.RIGHT){
-      compressedState += 1;
-    }
-    if(Input.UP){
-      compressedState += 2;
-    }
-    if(Input.LEFT){
-      compressedState += 4;
-    }
-    if(Input.DOWN){
-      compressedState += 8;
-    }
-    /*if(Input.LEFT){
-      this.socket.emit(1);
-    }
-    else{
-      this.socket.emit(0);
-    }*/
-    this.socket.emit(1, compressedState);
-    /*this.socket.emit('player-action', {
-      keyboardState: {
-        left: Input.LEFT,
-        right: Input.RIGHT,
-        up: Input.UP,
-        down: Input.DOWN
-      }
-    });*/
-    this.draw();
+  // Emits an event for the containing the player's input.
+  var compressedState = 0;
+  if(Input.RIGHT){
+    compressedState += 1;
   }
+  if(Input.UP){
+    compressedState += 2;
+  }
+  if(Input.LEFT){
+    compressedState += 4;
+  }
+  if(Input.DOWN){
+    compressedState += 8;
+  }
+  /*if(Input.LEFT){
+    this.socket.emit(1);
+  }
+  else{
+    this.socket.emit(0);
+  }*/
+  this.socket.emit(1, compressedState);
+  /*this.socket.emit('player-action', {
+    keyboardState: {
+      left: Input.LEFT,
+      right: Input.RIGHT,
+      up: Input.UP,
+      down: Input.DOWN
+    }
+  });*/
+  this.draw();
   this.animate();
 };
 
@@ -123,19 +120,11 @@ Game.prototype.draw = function() {
   // Clear the canvas.
   this.drawing.clear();
 
-  // Draw yourself
-  this.drawing.drawSelf(
-    this.selfPlayer.x,
-    this.selfPlayer.y,
-    this.selfPlayer.hitbox
-  );
-
   // Draw the other players
-  for (var player of this.otherPlayers) {
+  for (var player of this.Players) {
     this.drawing.drawOther(
-      player.x,
-      player.y,
-      player.hitbox
+      player[0],
+      player[1]
     );
   }
 };

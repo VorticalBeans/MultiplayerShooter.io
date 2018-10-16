@@ -45,31 +45,16 @@ Drawing.prototype.clear = function() {
 };
 
 /**
- * Draws the player's sprite as a red circle.
- * @param {number} x The x coordinate of the player
- * @param {number} y The y coordinate of the player
- * @param {number} size The radial size of the player
- */
-Drawing.prototype.drawSelf = function(x, y, size) {
-  this.context.save();
-  this.context.beginPath();
-  this.context.fillStyle = 'green';
-  this.context.arc(x, y, size, 0, Math.PI * 2);
-  this.context.fill();
-  this.context.restore();
-};
-
-/**
  * Draws other players' sprite as a red circle.
  * @param {number} x The x coordinate of the player
  * @param {number} y The y coordinate of the player
  * @param {number} size The radial size of the player
  */
-Drawing.prototype.drawOther = function(x, y, size) {
+Drawing.prototype.drawOther = function(x, y) {
   this.context.save();
   this.context.beginPath();
   this.context.fillStyle = 'red';
-  this.context.arc(x, y, size, 0, Math.PI * 2);
+  this.context.arc(x, y, 10, 0, Math.PI * 2);
   this.context.fill();
   this.context.restore();
 };
